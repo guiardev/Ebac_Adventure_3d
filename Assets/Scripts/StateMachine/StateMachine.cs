@@ -29,8 +29,7 @@ namespace Ebac.StateMachine{
 
         public void SwitchState(T state){
 
-            if (_currentState != null)
-            {
+            if (_currentState != null){
                 _currentState.OnStateExit();
             }
 
