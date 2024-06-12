@@ -29,7 +29,7 @@ public class UIGunUpdater : MonoBehaviour{
         if(_currTween != null) _currTween.Kill();
         //10/100 = .1
         //uiImage.fillAmount = 1 - (current / max);
-        _currTween = uiImage.DOFillAmount(1 - (current / max), duration).SetEase(ease);
+        _currTween = uiImage.DOFillAmount(1 - (current / max), duration).SetEase(ease); // 1 - (current / max) <-- fazendo ele inverter carregamento da image
 
     }
 
