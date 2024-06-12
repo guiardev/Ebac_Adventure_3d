@@ -3104,7 +3104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 502559301}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11315655, y: -0.000000016578051, z: 0.0000000018880417, w: 0.9935772}
+  m_LocalRotation: {x: 0.11315653, y: 0.000000018155763, z: -0.0000000020677238, w: 0.9935772}
   m_LocalPosition: {x: 418.14, y: -2.5100002, z: 35.382454}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5673,7 +5673,7 @@ GameObject:
   - component: {fileID: 876911440}
   - component: {fileID: 876911442}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ING_LoadingShoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10090,7 +10090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500100153}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11315655, y: -0.000000016578051, z: 0.0000000018880417, w: 0.9935772}
+  m_LocalRotation: {x: 0.11315653, y: 0.000000018155763, z: -0.0000000020677238, w: 0.9935772}
   m_LocalPosition: {x: 418.14, y: -2.5100002, z: 35.382454}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
