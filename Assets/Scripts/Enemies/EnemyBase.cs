@@ -8,11 +8,13 @@ namespace Enemy{
     
     public class EnemyBase : MonoBehaviour, IDamageable{
 
+        private Player _player;
         [SerializeField] private float _currentLife;
         public FlashColor flashColor;
         public Collider collider;
         public ParticleSystem particleSystem;
         public float startLife = 10f;
+        public bool lookAtPlayer = false;
 
         [Header("Animation")]
         [SerializeField] private AnimationBase _animationBase;
@@ -24,6 +26,10 @@ namespace Enemy{
 
         private void Awake() {
             Init();
+        }
+
+        private void Start() {
+            _player = GameObject.FindObjectOfType<Player>();
         }
 
         protected void ResetLife(){
@@ -59,6 +65,8 @@ namespace Enemy{
                particleSystem.Emit(15);    
             }
 
+            transform.position -= transform.forward; // fazendo personagem que levou tiro afastar com impacto do tiro
+
             _currentLife -= f;
 
             if(_currentLife <= 0){
@@ -78,6 +86,7 @@ namespace Enemy{
 
         #endregion
 
+        /*
         //debug
         private void Update() {
             
@@ -85,11 +94,32 @@ namespace Enemy{
                 OnDamage(5f);
             }
         }
+        */
 
         public void Damage(float damage){
             Debug.Log("Damage");
             OnDamage(damage);
         }
 
+        public void Damage(float damage, Vector3 dir){
+            OnDamage(damage);
+            transform.DOMove(transform.position - dir, .1f);
+        }
+
+        private void OnCollisionEnter(Collision col) {
+
+            Player p = col.transform.GetComponent<Player>();
+
+            if(p != null){
+                p.Damage(1);
+            }
+        }
+        
+        public virtual void Update(){
+
+            if(lookAtPlayer){ // lookAtPlayer = true
+                transform.LookAt(_player.transform.position); //fazendo inimigo olhar para player
+            }
+        }
     }
 }
