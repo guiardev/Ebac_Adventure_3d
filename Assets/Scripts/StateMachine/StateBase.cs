@@ -7,6 +7,7 @@ namespace Ebac.StateMachine{
     public class StateBase{
     
         public virtual void OnStateEnter(params object[] objs) {
+            Debug.Log("StateBase OnStateEnter objs " + objs);
             Debug.Log("OnStateEnter");
         }
 
