@@ -8,7 +8,7 @@ public class GunShootLimit : GunBase{
     private float _currentShoots;
     private bool _recharging = false;
 
-    public List<UIGunUpdater> uIGunUpdaters;
+    public List<UIFillUpdater> uIGunUpdaters;
 
     public float maxShoot = 5f, timeToRecharge = 1f;
 
@@ -77,7 +77,7 @@ public class GunShootLimit : GunBase{
     }
 
     private void GetAllUIs(){
-        uIGunUpdaters = GameObject.FindObjectsOfType<UIGunUpdater>().ToList();
+        uIGunUpdaters = GameObject.FindObjectsOfType<UIFillUpdater  >().ToList();
     }
 
 }
