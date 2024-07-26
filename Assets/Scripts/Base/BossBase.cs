@@ -25,10 +25,21 @@ namespace Boss{
         public int attackAmount = 5;
         public float timeBetweenAttacks = .5f, speed = 5f;
 
+        private void OnValidate(){
+
+            if (healthBase == null) healthBase = GetComponent<HealthBase>();
+        }
+
         private void Awake(){
 
             Init();
-            healthBase.OnKill += OnBossKill;
+            OnValidate();
+
+            if(healthBase != null){
+                healthBase.OnKill += OnBossKill;
+            }
+        
+            //healthBase.OnDamage += Damage;
         }
 
         private void Init(){
@@ -37,6 +48,7 @@ namespace Boss{
             stateMachine = new StateMachine<BossAction>();
             stateMachine.Init();
 
+            Debug.Log("stateMachine " + stateMachine);
             stateMachine.RegisterState(BossAction.INIT, new BossStatesInit());
             stateMachine.RegisterState(BossAction.WALK, new BossStatesWalk());
             stateMachine.RegisterState(BossAction.ATTACK, new BossStatesAttack());
