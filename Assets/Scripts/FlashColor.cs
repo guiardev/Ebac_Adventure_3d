@@ -23,7 +23,7 @@ public class FlashColor : MonoBehaviour{
 
     /*
     private void Start() {
-        _defaultColor = meshRenderer.material.GetColor("_EmissionColor");
+        _defaultColor = meshRenderer.material.GetColor("_EmissionColor");  // _EmissionColor e um variável do Material.
     }
     */
 
