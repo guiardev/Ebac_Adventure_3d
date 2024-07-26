@@ -110,8 +110,8 @@ namespace Enemy{
 
             Player p = col.transform.GetComponent<Player>();
 
-            if(p != null){
-                p.Damage(1);
+            if(p != null){  
+               p.healthBase.Damage(1);
             }
         }
         
