@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Ebac.StateMachine;
 using UnityEngine;
 
-
 namespace Boss{
 
     public class BossStateBase : StateBase{
@@ -12,7 +11,10 @@ namespace Boss{
 
         public override void OnStateEnter(params object[] objs){
 
+            Debug.Log("objs " + objs);
+            Debug.Log("objs[0] " + objs[0]);
             base.OnStateEnter(objs);
+            Debug.Log("boss " + boss);
             boss = (BossBase)objs[0];
         }
     }
