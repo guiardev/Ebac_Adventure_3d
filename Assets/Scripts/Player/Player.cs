@@ -2,13 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamageable{
+public class Player : MonoBehaviour {
 
     private float _vSpeed = 0f;
+    private bool _alive = true;
+
     public Animator animator;
+    public List<Collider> colliders;
+
     public KeyCode jumpKeyCode = KeyCode.Space;
     public CharacterController characterController;
     public float speed = 1f, turnSpeed = 1f, jumpSpeed = 15f, gravity = -9.8f;
+
+    [Header("Life")]
+    public HealthBase healthBase;
+    public UIFillUpdater uiGunUpdater;
 
     [Header("Run Setup")]
     public KeyCode keyRun = KeyCode.LeftShift;
@@ -17,14 +25,61 @@ public class Player : MonoBehaviour, IDamageable{
     [Header("Flash")]
     public List<FlashColor> flashColors;
 
+
+    #region VALIDATE
+
+    private void OnValidate() {
+
+        if(healthBase == null){ 
+            healthBase = GetComponent<HealthBase>();
+        }
+    }
+
+    private void Awake() {
+
+        OnValidate();
+        healthBase.OnDamage += Damage;
+        healthBase.OnDamage += OnKill;
+    }
+
+
+    #endregion
+
     #region LIFE
 
-    public void Damage(float damage){
-        flashColors.ForEach(i => i.Flash());
+    private void OnKill(HealthBase h){
+
+        if(_alive){
+
+            _alive = false;
+            animator.SetTrigger("Death");
+            colliders.ForEach(i => i.enabled = false); // tirando colisão personagem
+
+            Invoke(nameof(Revive), 3f);
+        }
+    }
+
+    private void Revive(){
+
+        _alive = true;  
+
+        healthBase.ResetLife();
+        animator.SetTrigger("Revive");
+
+        Respawn();
+        Invoke(nameof(TurnOnColliders), .1f);
+    }
+
+    private void TurnOnColliders(){
+        colliders.ForEach(i => i.enabled = true); // ativando colisão personagem        
+    }
+
+    public void Damage(HealthBase h){
+        flashColors.ForEach(i => i.Flash()); // fazendo personagem piscar quando for atingindo
     }
 
     public void Damage(float damage, Vector3 dir){
-        Damage(damage);
+        //Damage(damage);
     }
 
     #endregion
@@ -36,7 +91,6 @@ public class Player : MonoBehaviour, IDamageable{
 
         var inputAxisVertical = Input.GetAxis("Vertical");
         var speedVector = transform.forward * inputAxisVertical * speed;
-
 
         if(characterController.isGrounded){
 
@@ -75,5 +129,13 @@ public class Player : MonoBehaviour, IDamageable{
         }
         */
 
+    }
+
+    [NaughtyAttributes.Button]
+    public void     Respawn(){
+
+        if(CheckpointManager.Instance.HasCheckpoint()){
+            transform.position = CheckpointManager.Instance.GetPositionFromLastCheckpoint();
+        }
     }
 }
