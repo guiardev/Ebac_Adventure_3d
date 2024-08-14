@@ -5023,6 +5023,7 @@ MonoBehaviour:
   collider: {fileID: 1938430655263760074}
   particleSystem: {fileID: 7021058171228387211}
   startLife: 10
+  lookAtPlayer: 1
   _animationBase: {fileID: 4636747215878295555}
   startAnimationEase: 27
   startAnimationDuration: 0.2
@@ -5072,7 +5073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5528152198692108718, guid: ba6f7409a3ceb39bf887f50bef3b9bd2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.86
+      value: 0.43
       objectReference: {fileID: 0}
     - target: {fileID: 5528152198692108718, guid: ba6f7409a3ceb39bf887f50bef3b9bd2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5108,7 +5109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5813240506125565300, guid: ba6f7409a3ceb39bf887f50bef3b9bd2, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7650726972722989127, guid: ba6f7409a3ceb39bf887f50bef3b9bd2, type: 3}
       propertyPath: m_Enabled
