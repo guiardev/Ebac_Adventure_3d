@@ -9,7 +9,7 @@ namespace Ebac.Core.Singleton{
 
         public static T Instance;
 
-        private void Awake(){
+        protected virtual void Awake(){
 
             //verificando se tem instance objeto GameManager
             if(Instance == null){
