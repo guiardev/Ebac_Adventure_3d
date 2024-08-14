@@ -26,5 +26,4 @@ public class CheckpointManager : Singleton<CheckpointManager>{
 
         return checkpoint.transform.position;
     }
-
 }
