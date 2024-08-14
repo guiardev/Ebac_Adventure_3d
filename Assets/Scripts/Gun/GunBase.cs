@@ -40,11 +40,14 @@ public class GunBase : MonoBehaviour{
         projectile.transform.rotation = positionToShoot.rotation; // fazendo tiro atira centro player e seguir rotação do player
 
         projectile.speed = speed;
+
+        ShakeCamera.Instance.Shake();
     }
 
     public void StartShoot(){
         StopShoot();
         _currentCoroutine = StartCoroutine(ShootCoroutine());
+        Debug.Log("_currentCoroutine " + _currentCoroutine);
     }
 
     public void StopShoot(){
