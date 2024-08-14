@@ -21,6 +21,7 @@ public class HealthBase : MonoBehaviour, IDamageable{
 
     public void ResetLife(){
         _currentLife = startLife;
+        UpdateUI(); 
     }
 
     protected virtual void Kill(){
@@ -61,5 +62,4 @@ public class HealthBase : MonoBehaviour, IDamageable{
             uiGunUpdater.ForEach(i => i.UpdateValue((float)_currentLife / startLife));
         }
     }
-    
 }
