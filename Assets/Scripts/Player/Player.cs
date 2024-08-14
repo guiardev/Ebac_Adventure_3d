@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ebac.Core.Singleton;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : Singleton<Player> {
 
     private float _vSpeed = 0f;
     private bool _alive = true;
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour {
 
     [Header("Life")]
     public HealthBase healthBase;
-    public UIFillUpdater uiGunUpdater;
+    public UIFillUpdater uiFillUpdater;
 
     [Header("Run Setup")]
     public KeyCode keyRun = KeyCode.LeftShift;
@@ -24,7 +25,6 @@ public class Player : MonoBehaviour {
 
     [Header("Flash")]
     public List<FlashColor> flashColors;
-
 
     #region VALIDATE
 
@@ -35,13 +35,14 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void Awake() {
+    protected override void Awake() {
+
+        base.Awake();
 
         OnValidate();
         healthBase.OnDamage += Damage;
-        healthBase.OnDamage += OnKill;
+        healthBase.OnKill += OnKill;
     }
-
 
     #endregion
 
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour {
 
     private void Revive(){
 
-        _alive = true;  
+        _alive = true;
 
         healthBase.ResetLife();
         animator.SetTrigger("Revive");
@@ -76,10 +77,7 @@ public class Player : MonoBehaviour {
 
     public void Damage(HealthBase h){
         flashColors.ForEach(i => i.Flash()); // fazendo personagem piscar quando for atingindo
-    }
-
-    public void Damage(float damage, Vector3 dir){
-        //Damage(damage);
+        EffectsManager.Instance.ChangeVignette(); // fazendo efeito na tela quando personagem toma dano, o effect e PostProcessing
     }
 
     #endregion
@@ -132,7 +130,7 @@ public class Player : MonoBehaviour {
     }
 
     [NaughtyAttributes.Button]
-    public void     Respawn(){
+    public void Respawn(){
 
         if(CheckpointManager.Instance.HasCheckpoint()){
             transform.position = CheckpointManager.Instance.GetPositionFromLastCheckpoint();
