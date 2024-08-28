@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ebac.Core.Singleton;
 using UnityEngine;
+using Cloth;
 
 public class Player : Singleton<Player> {
 
@@ -25,6 +26,9 @@ public class Player : Singleton<Player> {
 
     [Header("Flash")]
     public List<FlashColor> flashColors;
+
+    [Space]
+    [SerializeField] private ClothChanger _clothChanger;
 
     #region VALIDATE
 
@@ -136,4 +140,37 @@ public class Player : Singleton<Player> {
             transform.position = CheckpointManager.Instance.GetPositionFromLastCheckpoint();
         }
     }
+
+    public void ChangeSpeed(float speed, float duration){
+        StartCoroutine(ChangeSpeedCoroutine(speed, duration));
+    }
+
+    IEnumerator ChangeSpeedCoroutine(float localSpeed, float duration){
+
+        var defaultSpeed = speed;
+        speed = localSpeed;
+
+        yield return new WaitForSeconds(duration);
+
+        speed = defaultSpeed;
+    }
+
+    public void ChangeTexture(ClothSetup setup, float duration){
+        StartCoroutine(ChangeTextureCoroutine(setup, duration));
+    }
+
+    IEnumerator ChangeTextureCoroutine(ClothSetup setup, float duration){
+
+        //var defaultSpeed = speed;
+        //speed = localSpeed;
+
+        _clothChanger.ChangeTexture(setup);
+
+        yield return new WaitForSeconds(duration);
+
+        //speed = defaultSpeed;
+        _clothChanger.ResetTexture();
+    }
+
+
 }
