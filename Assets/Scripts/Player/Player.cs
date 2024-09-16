@@ -7,7 +7,7 @@ using Cloth;
 public class Player : Singleton<Player> {
 
     private float _vSpeed = 0f;
-    private bool _alive = true;
+    private bool _alive = true, _jumping = false;
 
     public Animator animator;
     public List<Collider> colliders;
@@ -96,10 +96,24 @@ public class Player : Singleton<Player> {
 
         if(characterController.isGrounded){
 
+            if(_jumping){
+                _jumping = false;
+                animator.SetTrigger("Land");
+                Debug.Log("animator " + animator);
+            }
+    
             _vSpeed = 0;
 
             if(Input.GetKeyDown(jumpKeyCode)){
+
+
                 _vSpeed = jumpSpeed;
+
+                if(!_jumping){  
+                    _jumping = true;
+                    animator.SetTrigger("Jump");
+                    Debug.Log("animator " + animator);
+                }
             }
         }
 
@@ -171,6 +185,5 @@ public class Player : Singleton<Player> {
         //speed = defaultSpeed;
         _clothChanger.ResetTexture();
     }
-
 
 }
