@@ -14,6 +14,8 @@ public class FlashColor : MonoBehaviour{
     public Color color = Color.red;
     public float duration = .1f;
 
+    public string colorParameter = "_EmissionColor";
+
     private void OnValidate() {
 
         // método OnValidate seve para pegar componentes
@@ -32,11 +34,11 @@ public class FlashColor : MonoBehaviour{
 
         if(meshRenderer != null && !_currentTween.IsActive()){
             // LoopType e para fazer piscar quando inimigo for atingindo
-            _currentTween = meshRenderer.material.DOColor(color, "_EmissionColor", duration).SetLoops(2, LoopType.Yoyo);
+            _currentTween = meshRenderer.material.DOColor(color, colorParameter, duration).SetLoops(2, LoopType.Yoyo);
         }
 
         if(skinnedMeshRenderer != null && !_currentTween.IsActive()){
-            _currentTween = skinnedMeshRenderer.material.DOColor(color, "_EmissionColor", duration).SetLoops(2, LoopType.Yoyo);
+            _currentTween = skinnedMeshRenderer.material.DOColor(color, colorParameter, duration).SetLoops(2, LoopType.Yoyo);
         }
 
     }    

@@ -56,5 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Ebac_Adventure_3d.sln"
+    "dotnet.defaultSolution": "Ebac_Adventure_3d.sln",
+    "dotnetAcquisitionExtension.sharedExistingDotnetPath": "/home/guilherme/.dotnet/sdk/8.0.401/",
+    "cSpell.language": "en,pt-BR"
 }
