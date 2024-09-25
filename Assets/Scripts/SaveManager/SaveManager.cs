@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,15 +7,39 @@ using Ebac.Core.Singleton;
 
 public class SaveManager : Singleton<SaveManager>{
 
-    private SaveSetup _saveSetup;
+    [SerializeField] private SaveSetup _saveSetup;
+
+    // streamingAssetsPath salva dentro da pasta StreamingAssets que vai estar na pasta do projeto no Assets
+    private string _path = Application.streamingAssetsPath + "/save.txt";
+
+    public Action<SaveSetup> fileLoadedAction;
+
+    public int lastLevel;
+
+    public SaveSetup Setup{
+
+        get{ return _saveSetup; }
+    }
 
     protected override void Awake() {
 
-        _saveSetup = new SaveSetup(); // uma nova instância SaveSetup
-        _saveSetup.lastLevel = 2;
-        _saveSetup.playerName = "guigamer";
+        DontDestroyOnLoad(gameObject);
+
+        // _saveSetup = new SaveSetup(); // uma nova instância SaveSetup
+        // _saveSetup.lastLevel = 2;
+        // _saveSetup.playerName = "guigamer";
 
         base.Awake();
+    }
+
+    private void CreateNewSave(){
+        _saveSetup = new SaveSetup(); // uma nova instância SaveSetup
+        _saveSetup.lastLevel = 0;
+        _saveSetup.playerName = "guigamer";
+    }
+
+    private void Start() {
+        Invoke(nameof(Load), .1f);
     }
 
     #region SAVE
@@ -36,6 +61,14 @@ public class SaveManager : Singleton<SaveManager>{
         SaveFile(setupToJson);
     }
 
+    public void SaveItems(){
+
+        //buscando valores das variáveis dos items
+        _saveSetup.coins = Itens.ItemManager.Instance.GetItemByType(Itens.ItemType.COIN).soInt.value;
+        _saveSetup.health = Itens.ItemManager.Instance.GetItemByType(Itens.ItemType.LIFE_PACK).soInt.value;
+        Save();
+    }
+
     public void SaveName(string text){
         _saveSetup.playerName = text;
         Save();
@@ -43,6 +76,7 @@ public class SaveManager : Singleton<SaveManager>{
 
     public void SaveLastLevel(int level){
         _saveSetup.lastLevel = level;
+        SaveItems();
         Save();
     }
 
@@ -54,7 +88,7 @@ public class SaveManager : Singleton<SaveManager>{
         // dataPath sava o arquivo dentro do projeto
         // persistentDataPath sava o arquivo na pasta do usuário do sistema operacional
         // streamingAssetsPath salva dentro da pasta StreamingAssets que vai estar na pasta do projeto no Assets
-        string path = Application.streamingAssetsPath + "/save.txt";    
+        //string path = Application.streamingAssetsPath + "/save.txt";    
 
         // string fileLoaded = "";
 
@@ -62,8 +96,29 @@ public class SaveManager : Singleton<SaveManager>{
         //     fileLoaded = File.ReadAllText(path);
         // }
 
-        Debug.Log(path);
-        File.WriteAllText(path, json);
+        Debug.Log(_path);
+        File.WriteAllText(_path, json);
+    }
+
+    [NaughtyAttributes.Button]
+    private void Load(){
+
+        string fileLoaded = "";
+
+        if(File.Exists(_path)){
+
+            fileLoaded = File.ReadAllText(_path); //carregando arquivo load
+
+            _saveSetup = JsonUtility.FromJson<SaveSetup>(fileLoaded); // convertendo para json o fileLoaded
+
+            lastLevel = _saveSetup.lastLevel;
+        }else{
+           CreateNewSave();
+           Save();  
+        }
+
+
+        fileLoadedAction.Invoke(_saveSetup);
     }
 
     [NaughtyAttributes.Button]
@@ -81,5 +136,6 @@ public class SaveManager : Singleton<SaveManager>{
 public class SaveSetup{
 
     public int lastLevel;
+    public float coins, health;
     public string playerName;
 }
