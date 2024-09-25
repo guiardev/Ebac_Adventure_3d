@@ -17,6 +17,12 @@ namespace Itens{
 
         private void Start(){
             Reset();
+            LoadItemsFromSave();
+        }
+
+        private void LoadItemsFromSave(){ // carregando save
+            AddByType(ItemType.COIN, (int) SaveManager.Instance.Setup.coins);
+            AddByType(ItemType.LIFE_PACK, (int) SaveManager.Instance.Setup.health);
         }
 
         private void Reset(){
