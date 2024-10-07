@@ -103,10 +103,11 @@ public class SaveManager : Singleton<SaveManager>{
     [NaughtyAttributes.Button]
     private void Load(){
 
-        string fileLoaded = "";
 
         if(File.Exists(_path)){
 
+            string fileLoaded = "";
+            
             fileLoaded = File.ReadAllText(_path); //carregando arquivo load
 
             _saveSetup = JsonUtility.FromJson<SaveSetup>(fileLoaded); // convertendo para json o fileLoaded
