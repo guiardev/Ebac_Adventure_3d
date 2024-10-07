@@ -7,6 +7,7 @@ namespace Itens{
     public class ItemCollectableBase : MonoBehaviour{
 
         public ItemType itemType;
+        public SFXType sfxType;
 
         public Collider collider;
 
@@ -30,10 +31,16 @@ namespace Itens{
             }
         }
 
+        private void PlaySFX(){
+            SFXPool.Instance.Play(sfxType);
+        }
+
         protected virtual void Collect(){
 
             //Debug.Log("Collect");
             //gameObject.SetActive(false);
+
+            PlaySFX();
 
             if(collider != null) collider.enabled = false; // verificando collider para nao repetir passar do valor de novo.
 
