@@ -13,7 +13,8 @@ namespace Ebac.Core.Singleton{
 
             //verificando se tem instance objeto GameManager
             if(Instance == null){
-                Instance = GetComponent<T>(); // pegando componente dando para referencia   
+                Instance = GetComponent<T>(); // pegando componente dando para referencia
+                DontDestroyOnLoad(Instance);
             }else{
                 Destroy(gameObject);
             }
